@@ -1,0 +1,2 @@
+import {env} from 'cloudflare:workers';
+export async function saveEnquiry(row:Record<string,string>){const db=(env as unknown as {DB:D1Database}).DB;if(!db)throw new Error('Enquiry database unavailable');await db.prepare('INSERT INTO enquiries (id,created_at,name,phone,email,suburb,service,property,size,preferred_date,preferred_time,details) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)').bind(row.id,new Date().toISOString(),row.name,row.phone,row.email,row.suburb,row.service,row.property||'',row.size||'',row.date||'',row.time||'',row.details||'').run();}
